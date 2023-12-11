@@ -55,7 +55,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                 rtpbs_terminal = int(edit_pos - lha - pbs_len)
                 edit_codon_loc = math.ceil((edit_pos+1  + alpha - 60)/3) 
                 edit_rem = (edit_pos+1 - 60 + alpha) %3   # OOO  1 2 0 순서
-
+                nick_loc = pam_loc -6
 
                 if edit_pos-55 in [0,1,2,3,4]:  #5'은 codon3,4 only
                     k = edit_pos - 55
@@ -65,8 +65,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         lst = synony_dic.synony_code(Syn_codon3)
                         llst = []
                     
-
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+5> nick_loc):  #CODON3
                             
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -102,7 +101,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"RHA_len"] = rha + a
 
 
-                        if len(llst) ==0:
+                        if (len(llst) == 0) & (edit_pos+8> nick_loc):
                             
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
@@ -142,10 +141,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                         lst = synony_dic.synony_code(Syn_codon3)
                         llst = []
-                        
-                        
-
-                        if len(lst) != 0:  #CODON3
+                                
+                        if (len(lst) != 0) & (edit_pos+4> nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -181,8 +178,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
                             df.loc[i,"RHA_len"] = rha + a
 
-
-                        if len(llst) ==0:
+                        if (len(llst) == 0) & (edit_pos+7> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -224,7 +220,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                     
                     
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+3> nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -261,7 +257,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"RHA_len"] = rha + a
 
 
-                        if len(llst) ==0:
+                        if (len(llst) == 0) & (edit_pos+6> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -303,7 +299,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         
                     
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+2> nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -340,7 +336,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"RHA_len"] = rha + a
 
 
-                        if len(llst) ==0:
+                        if (len(llst) == 0) & (edit_pos+5> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -380,7 +376,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                         
                         
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+1> nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -417,7 +413,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"RHA_len"] = rha + a
 
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+4> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -461,7 +457,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                         
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-3> nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -479,9 +475,11 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq    
                                     llst.append(1)
+
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                     else: pass   
+
                                 else:
                                     a += 0
                                     r_lst[int(rha +1 + a)] = nu_dic[modi_codon[-1]].lower()
@@ -516,7 +514,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-6> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -564,7 +562,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                         
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-4> nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -572,19 +570,6 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
-                                elif modi_codon =="TAA": 
-                                    a += 1
-                                    r_lst[int(rha +1 + a)] = "t"
-                                    ref_lst = list(ref)
-                                    syn_nu = "t"
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos -3+beta] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq    
-                                    llst.append(1)
-                                    if pbs_len+lha<11 :
-                                        r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
-                                    else: pass                                   
                                 else:
                                     a += 0
                                     r_lst[int(rha +1 + a)] = nu_dic[modi_codon[-1]].lower()
@@ -617,7 +602,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-7> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -664,7 +649,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                     
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-5> nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -672,19 +657,6 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
-                                elif modi_codon =="TAA": 
-                                    a += 1
-                                    r_lst[int(rha +1 + a)] = "t"
-                                    ref_lst = list(ref)
-                                    syn_nu = "t"
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos -4+beta] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq    
-                                    llst.append(1)
-                                    if pbs_len+lha<11 :
-                                        r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
-                                    else: pass                                   
                                 else:
                                     a += 0
                                     r_lst[int(rha +1 + a)] = nu_dic[modi_codon[-1]].lower()
@@ -719,7 +691,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-8> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -765,7 +737,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         lst = synony_dic.synony_code(Syn_codon1)
                         llst = [] ##
                         
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-6> nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -773,19 +745,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
-                                elif modi_codon =="TAA": 
-                                    a += 1
-                                    r_lst[int(rha +1 + a)] = "t"
-                                    ref_lst = list(ref)
-                                    syn_nu = "t"
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos -5+beta] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq    
-                                    llst.append(1)
-                                    if pbs_len+lha<11 :
-                                        r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
-                                    else: pass   
+
                                 else:
                                     a += 0
                                     r_lst[int(rha +1 + a)] = nu_dic[modi_codon[-1]].lower()
@@ -820,7 +780,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        if len(llst) ==0: 
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-9> nick_loc): 
                         
                             lst = synony_dic.synony_code(Syn_codon2)
                             
@@ -862,7 +822,6 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
 
                     elif k == len(ref)-120 + 9:
-                        
                         Syn_codon1 = ref2[edit_pos+alpha+beta-7:edit_pos+alpha+beta-4]
                         Syn_codon2 = ref2[edit_pos+alpha+beta-10:edit_pos+alpha+beta-7]
 
@@ -870,7 +829,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst =[]
                         
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-7> nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -878,20 +837,6 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
-                                elif modi_codon =="TAA": 
-                                    a += 1
-                                    r_lst[int(rha +1 + a)] = "t"
-                                    ref_lst = list(ref)
-                                    syn_nu = "t"
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos -6+beta] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq    
-                                    llst.append(1)
-                                    if pbs_len+lha<11 :
-                                        r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
-                                    else: pass   
-
                                 else:
                                     a += 0
                                     r_lst[int(rha +1 + a)] = nu_dic[modi_codon[-1]].lower()
@@ -925,7 +870,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-10> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -977,8 +922,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                     if 2< edit_codon_loc < len(cds)/3 -1 : 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-3 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -993,7 +939,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq                        
-                                
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                     
@@ -1008,7 +954,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq                            
-                                
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass
@@ -1016,9 +962,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -6> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
-                            
+                            llst = []
                             if len(lst) != 0:  #CODON2
             
                                 modi_codon = random.choice(lst) 
@@ -1034,7 +980,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos -4] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq                                
-                                    
+                                    llst.append(1)
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                     else: pass                                  
@@ -1051,7 +997,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos -6] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq                                        
-                                        
+                                        llst.append(1)
                                         if pbs_len+lha<11 :
                                             r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                         else: pass       
@@ -1059,79 +1005,82 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos +3> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon3)
+                            llst = []
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 0
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 0
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        a += -5
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +5] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq                                        
-                                        
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += -3
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos + 3 ] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq        
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    a += -5
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +5] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq                                        
+                                    llst.append(1)
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += -3
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos + 3 ] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq       
+                                    llst.append(1) 
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha + a
 
+                        elif (len(llst) == 0) & (edit_pos +6> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon4)
+                            #CODON4
+        
+                            modi_codon = random.choice(lst) 
+                            r_lst = list(rtpbs)
+                            a = 0
+
+                            if modi_codon[0] == Syn_codon4[0]:
+                                if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
                                 else:
-                                    lst = synony_dic.synony_code(Syn_codon4)
-                                    #CODON4
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 0
 
-                                    if modi_codon[0] == Syn_codon4[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-
-                                            a += -5
-                                            r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos + 8] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq                                            
-                                            
-                                    elif modi_codon[-1] == Syn_codon4[-1]:
-                                        a += -3
-                                        r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +6] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq        
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a -3
-                                
+                                    a += -5
+                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos + 8] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq                                            
+                                    
+                            elif modi_codon[-1] == Syn_codon4[-1]:
+                                a += -3
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[0]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos +6] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq        
+                            synonyrtpbs = ''.join(r_lst)
+                            df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                            df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                            df.loc[i,"RHA_len"] = rha + a -3
+                        
                     elif edit_codon_loc == 2:
 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-3 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1146,7 +1095,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq                          
-                                
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass                        
@@ -1163,7 +1112,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos -3] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq                              
-                                    
+                                    llst.append(1)
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                     else: pass
@@ -1172,9 +1121,10 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos +3> nick_loc):
 
                             lst = synony_dic.synony_code(Syn_codon3)
+                            llst = []
 
                             if len(lst) != 0:  #CODON3
         
@@ -1191,7 +1141,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +5] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq                              
-                                    
+                                    llst.append(1)
                                 elif modi_codon[-1] == Syn_codon3[-1]:
                                     a += -3
                                     r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
@@ -1201,7 +1151,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +3] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq                              
-                                    
+                                    llst.append(1)
 
                                 synonyrtpbs = ''.join(r_lst)
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
@@ -1209,43 +1159,45 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"RHA_len"] = rha + a
 
 
-                            else:
-                                lst = synony_dic.synony_code(Syn_codon4)
-                                    #CODON4
+                        elif (len(llst) == 0) & (edit_pos +6> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon4)
 
-                                modi_codon = random.choice(lst) 
-                                r_lst = list(rtpbs)
-                                a = 0
+                                #CODON4
 
-                                if modi_codon[0] == Syn_codon4[0]:
-                                    a += -5
-                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
-                                    ref_lst = list(ref)
-                                    syn_nu = modi_codon[-1]
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos+8] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                              
-                                    
-                                elif modi_codon[-1] == Syn_codon4[-1]:
-                                    a += -3
-                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
-                                    ref_lst = list(ref)
-                                    syn_nu = modi_codon[0]
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos+6 ] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq  
-                                synonyrtpbs = ''.join(r_lst)
-                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                df.loc[i,"RHA_len"] = rha + a -3
+                            modi_codon = random.choice(lst) 
+                            r_lst = list(rtpbs)
+                            a = 0
+
+                            if modi_codon[0] == Syn_codon4[0]:
+                                a += -5
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[-1]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos+8] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq                              
+                                
+                            elif modi_codon[-1] == Syn_codon4[-1]:
+                                a += -3
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[0]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos+6 ] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq  
+                            synonyrtpbs = ''.join(r_lst)
+                            df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                            df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                            df.loc[i,"RHA_len"] = rha + a -3
                                                 
                     elif edit_codon_loc == 1:
 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst= []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+3 > nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1260,7 +1212,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos+ 5 ] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq                          
-                                
+                                llst.append(1)
                             elif modi_codon[-1] == Syn_codon3[-1]:
                                 a += -3
                                 r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
@@ -1270,14 +1222,14 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos+ 3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq     
-                                
+                                llst.append(1)
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
                             df.loc[i,"RHA_len"] = rha + a
 
 
-                        else:
+                        elif (len(llst) == 0) & (edit_pos +6> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -1312,8 +1264,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                     elif edit_codon_loc == len(cds)/3-1:
                     
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-3 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1328,7 +1281,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -1 ] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq                           
-                                
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass                        
@@ -1342,7 +1295,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3 ] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq                           
-                                
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass
@@ -1351,8 +1304,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -6> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
+                            llst = []
                             
                             if len(lst) != 0:  #CODON2
             
@@ -1368,7 +1322,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos] = nu  # original
                                     ref_lst[edit_pos -4] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                               
+                                    df.loc[i,"seq"] = seq    
+                                    llst.append(1)                           
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                     else: pass                                   
@@ -1384,7 +1339,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos] = nu  # original
                                         ref_lst[edit_pos - 6] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq                                   
+                                        df.loc[i,"seq"] = seq         
+                                        llst.append(1)                          
                                         if pbs_len+lha<11 :
                                             r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                         else: pass       
@@ -1392,46 +1348,47 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos +3> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon3)
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 0
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 0
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-                                            a += -5
-                                            r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos+ 5 ] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq                                       
-                                            
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += -3
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
+                                    else:
+                                        a += -5
+                                        r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
+                                        syn_nu = modi_codon[-1]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos+3 ] = syn_nu # synony site
+                                        ref_lst[edit_pos+ 5 ] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq   
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a
+                                        df.loc[i,"seq"] = seq                                       
+                                        
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += -3
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos+3 ] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq   
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha + a
                         
                     elif edit_codon_loc == len(cds)/3:
                     
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-3 > nick_loc): #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1446,7 +1403,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq                           
-                                
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass                        
@@ -1460,7 +1417,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3 ] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq                           
-                                
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass
@@ -1469,7 +1426,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -6> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -1524,8 +1481,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                     if 2< edit_codon_loc < len(cds)/3 -1: 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-4 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1540,6 +1498,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
 
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
@@ -1555,6 +1514,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
 
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
@@ -1563,8 +1523,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -7> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
+                            llst= []
                             
                             if len(lst) != 0:  #CODON2
             
@@ -1580,7 +1541,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos] = nu  # original
                                     ref_lst[edit_pos -5] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                              
+                                    df.loc[i,"seq"] = seq   
+                                    llst.append(1)                           
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                     else: pass                                   
@@ -1595,7 +1557,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos] = nu  # original
                                         ref_lst[edit_pos -7] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq                                  
+                                        df.loc[i,"seq"] = seq      
+                                        llst.append(1)                            
                                         if pbs_len+lha<11 :
                                             r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                         else: pass       
@@ -1604,77 +1567,81 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos +2> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon3)
+                            llst= []
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 1
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 1
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        a += -5
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +4] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq            
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    a += -5
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +4] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq    
+                                    llst.append(1)        
 
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += -3
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +2] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq  
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += -3
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +2] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq  
+                                    llst.append(1)
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha + a
 
+                        elif (len(llst) == 0) & (edit_pos +5> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon4)
+                            #CODON4
+        
+                            modi_codon = random.choice(lst) 
+                            r_lst = list(rtpbs)
+                            a = 1
+
+                            if modi_codon[0] == Syn_codon4[0]:
+                                if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
                                 else:
-                                    lst = synony_dic.synony_code(Syn_codon4)
-                                    #CODON4
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 1
-
-                                    if modi_codon[0] == Syn_codon4[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-                                            a += -5
-                                            r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos +7] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq                                      
-                                    elif modi_codon[-1] == Syn_codon4[-1]:
-                                        a += -3
-                                        r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +5] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq  
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a -3
+                                    a += -5
+                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +7] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq                                      
+                            elif modi_codon[-1] == Syn_codon4[-1]:
+                                a += -3
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[0]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos +5] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq  
+                            synonyrtpbs = ''.join(r_lst)
+                            df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                            df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                            df.loc[i,"RHA_len"] = rha + a -3
 
                     elif edit_codon_loc ==2: 
                         
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-4 > nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1689,6 +1656,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
 
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
@@ -1704,7 +1672,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos] = nu  # original
                                     ref_lst[edit_pos -4] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                              
+                                    df.loc[i,"seq"] = seq   
+                                    llst.append(1)                           
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                     else: pass
@@ -1712,8 +1681,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        else: 
+                        elif (len(llst) == 0) & (edit_pos +2> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon3)
+                            llst = []
 
                             if len(lst) != 0:  #CODON3
 
@@ -1746,42 +1716,43 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"RHA_len"] = rha + a
 
 
-                            else:
-                                lst = synony_dic.synony_code(Syn_codon4)
-                                #CODON4
+                        elif (len(llst) == 0) & (edit_pos +5> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon4)
+                            #CODON4
 
-                                modi_codon = random.choice(lst) 
-                                r_lst = list(rtpbs)
-                                a = 1
+                            modi_codon = random.choice(lst) 
+                            r_lst = list(rtpbs)
+                            a = 1
 
-                                if modi_codon[0] == Syn_codon4[0]:
-                                    a += -5
-                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
-                                    ref_lst = list(ref)
-                                    syn_nu = modi_codon[-1]
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos +7] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                              
-                                elif modi_codon[-1] == Syn_codon4[-1]:
-                                    a += -3
-                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
-                                    ref_lst = list(ref)
-                                    syn_nu = modi_codon[0]
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos +5] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq  
-                                synonyrtpbs = ''.join(r_lst)
-                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                df.loc[i,"RHA_len"] = rha + a -3      
+                            if modi_codon[0] == Syn_codon4[0]:
+                                a += -5
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[-1]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos +7] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq                              
+                            elif modi_codon[-1] == Syn_codon4[-1]:
+                                a += -3
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[0]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos +5] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq  
+                            synonyrtpbs = ''.join(r_lst)
+                            df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                            df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                            df.loc[i,"RHA_len"] = rha + a -3      
 
                     elif edit_codon_loc ==1: 
                     
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+2 > nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1795,7 +1766,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos +4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                          
+                                df.loc[i,"seq"] = seq       
+                                llst.append(1)                   
                             elif modi_codon[-1] == Syn_codon3[-1]:
                                 a += -3
                                 r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
@@ -1805,13 +1777,14 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
                             df.loc[i,"RHA_len"] = rha + a
 
 
-                        else:
+                        elif (len(llst) == 0) & (edit_pos +5> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -1845,8 +1818,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                     elif edit_codon_loc == len(cds)/3-1:
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-4 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1860,7 +1834,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos -2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                         
+                                df.loc[i,"seq"] = seq       
+                                llst.append(1)                  
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass                        
@@ -1873,7 +1848,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos -4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                        
+                                df.loc[i,"seq"] = seq     
+                                llst.append(1)                   
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass
@@ -1881,7 +1857,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -7> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -1898,7 +1874,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos] = nu  # original
                                     ref_lst[edit_pos -5] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                               
+                                    df.loc[i,"seq"] = seq      
+                                    llst.append(1)                         
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                     else: pass                                   
@@ -1913,7 +1890,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos] = nu  # original
                                         ref_lst[edit_pos -7] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq                                
+                                        df.loc[i,"seq"] = seq      
+                                        llst.append(1)                          
                                         if pbs_len+lha<11 :
                                             r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                         else: pass       
@@ -1922,46 +1900,47 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos +2> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon3)
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 1
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 1
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-                                                
-                                            a += -5
-                                            r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos +4] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq                                       
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += -3
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
+                                    else:
+                                            
+                                        a += -5
+                                        r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
+                                        syn_nu = modi_codon[-1]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +2] = syn_nu # synony site
+                                        ref_lst[edit_pos +4] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a
+                                        df.loc[i,"seq"] = seq                                       
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += -3
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +2] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha + a
 
                     elif edit_codon_loc == len(cds)/3:
 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-4 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -1975,7 +1954,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos -2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                           
+                                df.loc[i,"seq"] = seq     
+                                llst.append(1)                      
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                     
@@ -1988,7 +1968,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos -4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                        
+                                df.loc[i,"seq"] = seq       
+                                llst.append(1)                 
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass
@@ -1996,7 +1977,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -7> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -2049,8 +2030,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                     if 1<edit_codon_loc <len(cds)/3 -1: 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-5 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2064,7 +2046,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                           
+                                df.loc[i,"seq"] = seq    
+                                llst.append(1)                       
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass                        
@@ -2077,7 +2060,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos -5] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                        
+                                df.loc[i,"seq"] = seq     
+                                llst.append(1)                   
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass
@@ -2085,9 +2069,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -8> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
-                            
+                            llst =[]
                             if len(lst) != 0:  #CODON2
             
                                 modi_codon = random.choice(lst) 
@@ -2102,7 +2086,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos] = nu  # original
                                     ref_lst[edit_pos -6] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                               
+                                    df.loc[i,"seq"] = seq       
+                                    llst.append(1)                        
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                     else: pass                                   
@@ -2118,7 +2103,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos] = nu  # original
                                         ref_lst[edit_pos -8] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq                                
+                                        df.loc[i,"seq"] = seq        
+                                        llst.append(1)                        
                                         if pbs_len+lha<11 :
                                             r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                         else: pass       
@@ -2126,76 +2112,81 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos +1> nick_loc):
+                            llst = []
+                            lst = synony_dic.synony_code(Syn_codon3)
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 2
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 2
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        a += -5
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +3] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq                                   
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += -3
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +1] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    a += -5
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +3] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq     
+                                    llst.append(1)                              
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += -3
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +1] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                    llst.append(1)
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha + a
 
+                        elif (len(llst) == 0) & (edit_pos +4> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon4)
+                            
+                            #CODON4
+        
+                            modi_codon = random.choice(lst) 
+                            r_lst = list(rtpbs)
+                            a = 2
+
+                            if modi_codon[0] == Syn_codon4[0]:
+                                if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
                                 else:
-                                    lst = synony_dic.synony_code(Syn_codon4)
-                                    #CODON4
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 2
-
-                                    if modi_codon[0] == Syn_codon4[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-                                            a += -5
-                                            r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos +6] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq                                       
-                                    elif modi_codon[-1] == Syn_codon4[-1]:
-                                        a += -3
-                                        r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +4] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a -3
+                                    a += -5
+                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +6] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq                                       
+                            elif modi_codon[-1] == Syn_codon4[-1]:
+                                a += -3
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[0]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos +4] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq
+                            synonyrtpbs = ''.join(r_lst)
+                            df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                            df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                            df.loc[i,"RHA_len"] = rha + a -3
 
                     elif edit_codon_loc ==2: 
                         
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-5 > nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2209,7 +2200,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                           
+                                df.loc[i,"seq"] = seq      
+                                llst.append(1)                     
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass                        
@@ -2225,7 +2217,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos] = nu  # original
                                     ref_lst[edit_pos -5] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                            
+                                    df.loc[i,"seq"] = seq     
+                                    llst.append(1)                       
 
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
@@ -2234,8 +2227,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        else: 
+                        elif (len(llst) == 0) & (edit_pos +1> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon3)
+                            llst =[]
 
                             if len(lst) != 0:  #CODON3
 
@@ -2251,7 +2245,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos] = nu  # original
                                     ref_lst[edit_pos +3] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                               
+                                    df.loc[i,"seq"] = seq      
+                                    llst.append(1)                         
                                 elif modi_codon[-1] == Syn_codon3[-1]:
                                     a += -3
                                     r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
@@ -2261,47 +2256,49 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +1] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                 synonyrtpbs = ''.join(r_lst)
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
                                 df.loc[i,"RHA_len"] = rha + a
 
-                            else:
-                                lst = synony_dic.synony_code(Syn_codon4)
-                                #CODON4
+                        elif (len(llst) == 0) & (edit_pos+4> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon4)
+                            #CODON4
 
-                                modi_codon = random.choice(lst) 
-                                r_lst = list(rtpbs)
-                                a = 2
+                            modi_codon = random.choice(lst) 
+                            r_lst = list(rtpbs)
+                            a = 2
 
-                                if modi_codon[0] == Syn_codon4[0]:
-                                    a += -5
-                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
-                                    ref_lst = list(ref)
-                                    syn_nu = modi_codon[-1]
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos +6] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq                               
-                                elif modi_codon[-1] == Syn_codon4[-1]:
-                                    a += -3
-                                    r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
-                                    ref_lst = list(ref)
-                                    syn_nu = modi_codon[0]
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos +4] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq
-                                synonyrtpbs = ''.join(r_lst)
-                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                df.loc[i,"RHA_len"] = rha + a -3
+                            if modi_codon[0] == Syn_codon4[0]:
+                                a += -5
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[-1]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[-1]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos +6] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq                               
+                            elif modi_codon[-1] == Syn_codon4[-1]:
+                                a += -3
+                                r_lst[int(rha-3 + a)] = nu_dic[modi_codon[0]].lower()
+                                ref_lst = list(ref)
+                                syn_nu = modi_codon[0]
+                                ref_lst[edit_pos] = nu  # original
+                                ref_lst[edit_pos +4] = syn_nu # synony site
+                                seq = ''.join(ref_lst)
+                                df.loc[i,"seq"] = seq
+                            synonyrtpbs = ''.join(r_lst)
+                            df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                            df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                            df.loc[i,"RHA_len"] = rha + a -3
                         
                     elif edit_codon_loc ==1: 
                     
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+1 > nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2315,7 +2312,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos +3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq                           
+                                df.loc[i,"seq"] = seq 
+                                llst.append(1)                          
                             elif modi_codon[-1] == Syn_codon3[-1]:
                                 a += -3
                                 r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
@@ -2325,13 +2323,14 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
                             df.loc[i,"RHA_len"] = rha + a
 
 
-                        else:
+                        elif (len(llst) == 0) & (edit_pos +4> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -2365,8 +2364,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                     elif edit_codon_loc == len(cds)/3 -1:
 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-5 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2381,6 +2381,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq   
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass                        
@@ -2394,6 +2395,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -5] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass
@@ -2401,9 +2403,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -8> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
-                            
+                            llst = []
                             if len(lst) != 0:  #CODON2
             
                                 modi_codon = random.choice(lst) 
@@ -2419,6 +2421,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos -6] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq   
+                                    llst.append(1)
                                     if pbs_len+lha<11 :
                                         r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                     else: pass                              
@@ -2434,6 +2437,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos -8] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq
+                                        llst.append(1)
                                         if pbs_len+lha<11 :
                                             r_lst.append(reverse_complement(ref[rtpbs_terminal-6:rtpbs_terminal]))
                                         else: pass  
@@ -2441,45 +2445,46 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos +1> nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon3)
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 2
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 2
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-                                            a += -5
-                                            r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos +3] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq                                       
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += -3
-                                        r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
+                                    else:
+                                        a += -5
+                                        r_lst[int(rha + a)] = nu_dic[modi_codon[-1]].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
+                                        syn_nu = modi_codon[-1]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +1] = syn_nu # synony site
+                                        ref_lst[edit_pos +3] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha + a
+                                        df.loc[i,"seq"] = seq                                       
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += -3
+                                    r_lst[int(rha + a)] = nu_dic[modi_codon[0]].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +1] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha + a
 
                     elif edit_codon_loc == len(cds)/3:
 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-5 > nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2494,6 +2499,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq   
+                                llst.append(1)
 
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
@@ -2508,6 +2514,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -5] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11 :
                                     r_lst.append(reverse_complement(ref[rtpbs_terminal-3:rtpbs_terminal]))
                                 else: pass
@@ -2516,7 +2523,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos -8> nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -2563,7 +2570,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                 
                 edit_codon_loc = math.ceil((edit_pos+1  + alpha - 60)/3) 
                 edit_rem = (edit_pos+1 - 60 + alpha) %3   # OOO  1 2 0 순서
-
+                nick_loc = pam_loc + 6
                 ## Splice
                 if edit_pos-55 in [0,1,2,3,4]:  #5'은 codon3,4 only
                     k = edit_pos - 55
@@ -2572,9 +2579,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         Syn_codon4 = ref2[edit_pos+8:edit_pos+11]
                         lst = synony_dic.synony_code(Syn_codon3)
                         llst = []
-                    
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+7< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2613,7 +2619,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+10< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -2658,7 +2664,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         lst = synony_dic.synony_code(Syn_codon3)
                         llst=[]
                     
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+6< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2699,7 +2705,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+9< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -2744,7 +2750,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                     
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+5< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2783,7 +2789,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+8< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -2829,7 +2835,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                     
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+4< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2868,7 +2874,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+7< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -2912,7 +2918,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                         
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+3< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -2951,7 +2957,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        if len(llst) ==0:
+                        if (len(llst) == 0) & (edit_pos+6< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
                             #CODON4
 
@@ -3000,22 +3006,13 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                     
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-1< nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
                             a = 0 + beta
-                            if modi_codon =="TAA": 
-                                a += -1
-                                r_lst[int(rha -1 + a)] = "a"
-                                ref_lst = list(ref)
-                                syn_nu = "a"
-                                ref_lst[edit_pos] = nu  # original
-                                ref_lst[edit_pos -2+ beta] = syn_nu # synony site
-                                seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq  
-                                llst.append(1)
-                            elif modi_codon[0] == Syn_codon1[0]:
+
+                            if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
                                 else:
                                     a += 0
@@ -3043,7 +3040,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha-1+a
                             
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-4< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -3084,23 +3081,13 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                     
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-2< nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
                             a = -1 + beta
-                            if modi_codon =="TAA": 
-                                a += -1
-                                r_lst[int(rha -1 + a)] = "a"
-                                ref_lst = list(ref)
-                                syn_nu = "a"
-                                ref_lst[edit_pos] = nu  # original
-                                ref_lst[edit_pos -3+ beta] = syn_nu # synony site
-                                seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq  
-                                llst.append(1)
 
-                            elif modi_codon[0] == Syn_codon1[0]:
+                            if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
                                 else:
                                     a += 0
@@ -3128,7 +3115,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha-1+a
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-5< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -3170,23 +3157,13 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                         
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-3< nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
                             a = -2 + beta
-                            if modi_codon =="TAA": 
-                                a += -1
-                                r_lst[int(rha -1 + a)] = "a"
-                                ref_lst = list(ref)
-                                syn_nu = "a"
-                                ref_lst[edit_pos] = nu  # original
-                                ref_lst[edit_pos -4+ beta] = syn_nu # synony site
-                                seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq  
-                                llst.append(1)
-                            
-                            elif modi_codon[0] == Syn_codon1[0]:
+
+                            if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
                                 else:
                                     a += 0
@@ -3213,7 +3190,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha-1+a
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-6< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -3253,7 +3230,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                     
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-4< nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -3261,16 +3238,6 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
-                                elif modi_codon =="TAA": 
-                                    a += -1
-                                    r_lst[int(rha -1 + a)] = "a"
-                                    ref_lst = list(ref)
-                                    syn_nu = "a"
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos -5+ beta] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq  
-                                    llst.append(1)                                
                                 else:
                                     a += 0
                                     r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
@@ -3296,7 +3263,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha-1+a
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-7< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -3337,7 +3304,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                         llst = []
                     
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos+alpha+beta-5< nick_loc):  #CODON1
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -3345,16 +3312,6 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon1[0]:
                                 if beta >=1: pass
-                                elif modi_codon =="TAA": 
-                                    a += -1
-                                    r_lst[int(rha -1 + a)] = "a"
-                                    ref_lst = list(ref)
-                                    syn_nu = "a"
-                                    ref_lst[edit_pos] = nu  # original
-                                    ref_lst[edit_pos -6+ beta] = syn_nu # synony site
-                                    seq = ''.join(ref_lst)
-                                    df.loc[i,"seq"] = seq  
-                                    llst.append(1)                                
                                 else:
                                     a += 0
                                     r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
@@ -3381,7 +3338,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha-1+a
-                        if len(llst) == 0:
+                        if (len(llst) == 0) & (edit_pos+alpha+beta-8< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -3427,8 +3384,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                     if 1< edit_codon_loc < len(cds)/3 -1: 
 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst= []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+5< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -3443,6 +3401,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +5] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq   
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass                        
@@ -3455,6 +3414,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -3462,10 +3422,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-
-
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos+8< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
+                            llst=  []
 
                             if len(lst) != 0:  #CODON4
             
@@ -3484,6 +3443,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos +8] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq   
+                                        llst.append(1)
                                         if pbs_len+lha<11  :
                                             r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                         else: pass                                
@@ -3497,6 +3457,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +6] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass
@@ -3505,81 +3466,85 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon1)
+                        elif (len(llst) == 0) & (edit_pos-1< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon1)
+                            llst= []
 
-                                if len(lst) != 0:  #CODON1
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 0
+                            if len(lst) != 0:  #CODON1
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 0
 
-                                    if modi_codon[0] == Syn_codon1[0]:
-                                        a += 0
-                                        r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -1] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq  
-                                    elif modi_codon[-1] == Syn_codon1[-1]:
+                                if modi_codon[0] == Syn_codon1[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -1] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq  
+                                    llst.append(1)
+                                elif modi_codon[-1] == Syn_codon1[-1]:
+                                    a += -2
+                                    r_lst[int(rha -1 + a)] = modi_codon[0].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -3] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                    llst.append(1)
+
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
+                                df.loc[i,"RHA_len"] = rha -1 + a
+
+                        elif (len(llst) == 0) & (edit_pos-4< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon2)
+                            
+                            if len(lst) != 0:  #CODON2
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 0
+
+                                if modi_codon[0] == Syn_codon2[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 -3 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -4] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq   
+                                elif modi_codon[-1] == Syn_codon2[-1]:
+                                    if (alpha >=1) & (edit_codon_loc ==2): pass
+                                    else:
+
                                         a += -2
-                                        r_lst[int(rha -1 + a)] = modi_codon[0].lower()
+                                        r_lst[int(rha -1 -3 + a)] = modi_codon[0].lower()
                                         ref_lst = list(ref)
                                         syn_nu = modi_codon[0]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -3] = syn_nu # synony site
+                                        ref_lst[edit_pos -6] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq
 
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
-                                    df.loc[i,"RHA_len"] = rha -1 + a
 
-                                else:
-                                    lst = synony_dic.synony_code(Syn_codon2)
-                                    
-                                    if len(lst) != 0:  #CODON2
-                    
-                                        modi_codon = random.choice(lst) 
-                                        r_lst = list(rtpbs)
-                                        a = 0
-
-                                        if modi_codon[0] == Syn_codon2[0]:
-                                            a += 0
-                                            r_lst[int(rha -1 -3 + a)] = modi_codon[-1].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos -4] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq   
-                                        elif modi_codon[-1] == Syn_codon2[-1]:
-                                            if (alpha >=1) & (edit_codon_loc ==2): pass
-                                            else:
-
-                                                a += -2
-                                                r_lst[int(rha -1 -3 + a)] = modi_codon[0].lower()
-                                                ref_lst = list(ref)
-                                                syn_nu = modi_codon[0]
-                                                ref_lst[edit_pos] = nu  # original
-                                                ref_lst[edit_pos -6] = syn_nu # synony site
-                                                seq = ''.join(ref_lst)
-                                                df.loc[i,"seq"] = seq
-
-
-                                        synonyrtpbs = ''.join(r_lst)
-                                        df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                        df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
-                                        df.loc[i,"RHA_len"] = rha -1 -3 + a 
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
+                                df.loc[i,"RHA_len"] = rha -1 -3 + a 
 
                     elif edit_codon_loc ==2:
 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst =[]
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+5< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -3594,6 +3559,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +5] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass                        
@@ -3607,6 +3573,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -3614,8 +3581,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        else: 
+                        elif (len(llst) == 0) & (edit_pos+8< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
+                            llst = []
 
                             if len(lst) != 0:  #CODON4
             
@@ -3632,6 +3600,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +8] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq   
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass                            
@@ -3645,6 +3614,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +6] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass
@@ -3652,46 +3622,47 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                            else:
-                                lst = synony_dic.synony_code(Syn_codon1)
+                        elif (len(llst) == 0) & (edit_pos-1< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon1)
 
-                                if len(lst) != 0:  #CODON1
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 0
+                            if len(lst) != 0:  #CODON1
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 0
 
-                                    if modi_codon[0] == Syn_codon1[0]:
-                                        a += 0
-                                        r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                if modi_codon[0] == Syn_codon1[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -1] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq   
+                                elif modi_codon[-1] == Syn_codon1[-1]:
+                                    if alpha>=1: pass
+                                    else:
+                                        a += -2
+                                        r_lst[int(rha -1 + a)] = modi_codon[0].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
+                                        syn_nu = modi_codon[0]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -1] = syn_nu # synony site
+                                        ref_lst[edit_pos -3] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq   
-                                    elif modi_codon[-1] == Syn_codon1[-1]:
-                                        if alpha>=1: pass
-                                        else:
-                                            a += -2
-                                            r_lst[int(rha -1 + a)] = modi_codon[0].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[0]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos -3] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq
+                                        df.loc[i,"seq"] = seq
 
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha -1 + a
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha -1 + a
 
                     elif edit_codon_loc ==1:
 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+5< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -3706,6 +3677,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +5] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq   
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass                        
@@ -3719,6 +3691,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -3726,7 +3699,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        else:
+                        elif (len(llst) == 0) & (edit_pos+8< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
 
                             if len(lst) != 0:  #CODON4
@@ -3766,8 +3739,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                     elif edit_codon_loc == len(cds)/3 -1:
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-1< nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -3781,7 +3755,8 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos] = nu  # original
                                 ref_lst[edit_pos -1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
-                                df.loc[i,"seq"] = seq  
+                                df.loc[i,"seq"] = seq 
+                                llst.append(1) 
                             elif modi_codon[-1] == Syn_codon1[-1]:
                                 a += -2
                                 r_lst[int(rha -1 + a)] = modi_codon[0].lower()
@@ -3791,14 +3766,16 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
 
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha -1 + a
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos-4< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
+                            llst = []
                             
                             if len(lst) != 0:  #CODON2
             
@@ -3815,6 +3792,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos -4] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq  
+                                    llst.append(1)
                                 elif modi_codon[-1] == Syn_codon2[-1]:
                                     if (alpha >=1) & (edit_codon_loc ==2): pass
                                     else:
@@ -3827,6 +3805,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos -6] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq
+                                        llst.append(1)
 
                                 synonyrtpbs = ''.join(r_lst)
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
@@ -3834,51 +3813,52 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"RHA_len"] = rha -1 -3 + a
 
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos+5< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon3)
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 3
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 3
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-                                            a += 2
-                                            r_lst[int(rha + a)] = modi_codon[-1].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos +5] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq  
-                                            if lha<3 :
-                                                r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
-                                            else: pass                                    
-                                            
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += 0
-                                        r_lst[int(rha + a)] = modi_codon[0].lower()
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
+                                    else:
+                                        a += 2
+                                        r_lst[int(rha + a)] = modi_codon[-1].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
+                                        syn_nu = modi_codon[-1]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +3] = syn_nu # synony site
+                                        ref_lst[edit_pos +5] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq
+                                        df.loc[i,"seq"] = seq  
                                         if lha<3 :
                                             r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
-                                        else: pass
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                        else: pass                                    
+                                        
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += 0
+                                    r_lst[int(rha + a)] = modi_codon[0].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +3] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                    if lha<3 :
+                                        r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
+                                    else: pass
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
                     elif edit_codon_loc == len(cds)/3:
 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst= []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-1< nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -3893,6 +3873,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
                             elif modi_codon[-1] == Syn_codon1[-1]:
                                 a += -2
                                 r_lst[int(rha -1 + a)] = modi_codon[0].lower()
@@ -3902,13 +3883,14 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
 
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha -1 + a
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos-4< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -3956,8 +3938,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                     
                     if 1< edit_codon_loc < len(cds)/3 -1: 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst= []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+4< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -3972,6 +3955,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass                        
@@ -3986,6 +3970,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -3993,8 +3978,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos+7< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
+                            llst = []
 
                             if len(lst) != 0:  #CODON4
             
@@ -4013,6 +3999,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos +7] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq
+                                        llst.append(1)
                                         if pbs_len+lha<11  :
                                             r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                         else: pass                                
@@ -4026,6 +4013,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +5] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass
@@ -4034,80 +4022,84 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon1)
+                        elif (len(llst) == 0) & (edit_pos-2< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon1)
+                            llst = []
 
-                                if len(lst) != 0:  #CODON1
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = -1
+                            if len(lst) != 0:  #CODON1
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = -1
 
-                                    if modi_codon[0] == Syn_codon1[0]:
-                                        a += 0
-                                        r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -2] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq
-                                    elif modi_codon[-1] == Syn_codon1[-1]:
+                                if modi_codon[0] == Syn_codon1[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -2] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                    llst.append(1)
+                                elif modi_codon[-1] == Syn_codon1[-1]:
+                                    a += -2
+                                    r_lst[int(rha -1 + a)] = modi_codon[0].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -4] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                    llst.append(1)
+
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
+                                df.loc[i,"RHA_len"] = rha -1 + a 
+
+                        elif (len(llst) == 0) & (edit_pos-5< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon2)
+                            
+                            if len(lst) != 0:  #CODON2
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = -1
+
+                                if modi_codon[0] == Syn_codon2[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 -3 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -5] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                elif modi_codon[-1] == Syn_codon2[-1]:
+                                    if (alpha >=1) & (edit_codon_loc ==2): pass
+                                    else:
+
                                         a += -2
-                                        r_lst[int(rha -1 + a)] = modi_codon[0].lower()
+                                        r_lst[int(rha -1 -3 + a)] = modi_codon[0].lower()
                                         ref_lst = list(ref)
                                         syn_nu = modi_codon[0]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -4] = syn_nu # synony site
+                                        ref_lst[edit_pos -7] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq
 
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
-                                    df.loc[i,"RHA_len"] = rha -1 + a 
-
-                                else:
-                                    lst = synony_dic.synony_code(Syn_codon2)
-                                    
-                                    if len(lst) != 0:  #CODON2
-                    
-                                        modi_codon = random.choice(lst) 
-                                        r_lst = list(rtpbs)
-                                        a = -1
-
-                                        if modi_codon[0] == Syn_codon2[0]:
-                                            a += 0
-                                            r_lst[int(rha -1 -3 + a)] = modi_codon[-1].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos -5] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq
-                                        elif modi_codon[-1] == Syn_codon2[-1]:
-                                            if (alpha >=1) & (edit_codon_loc ==2): pass
-                                            else:
-
-                                                a += -2
-                                                r_lst[int(rha -1 -3 + a)] = modi_codon[0].lower()
-                                                ref_lst = list(ref)
-                                                syn_nu = modi_codon[0]
-                                                ref_lst[edit_pos] = nu  # original
-                                                ref_lst[edit_pos -7] = syn_nu # synony site
-                                                seq = ''.join(ref_lst)
-                                                df.loc[i,"seq"] = seq
-
-                                        synonyrtpbs = ''.join(r_lst)
-                                        df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                        df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
-                                        df.loc[i,"RHA_len"] = rha -1 -3 + a
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
+                                df.loc[i,"RHA_len"] = rha -1 -3 + a
 
                     elif edit_codon_loc ==2:
 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst=[]
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+4< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4122,6 +4114,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass                        
@@ -4135,6 +4128,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -4142,8 +4136,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        else: 
+                        elif (len(llst) == 0) & (edit_pos+7< nick_loc): 
                             lst = synony_dic.synony_code(Syn_codon4)
+                            llst = []
 
                             if len(lst) != 0:  #CODON4
             
@@ -4160,6 +4155,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +7] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass                            
@@ -4173,6 +4169,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +5] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass
@@ -4180,45 +4177,46 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                            else:
-                                lst = synony_dic.synony_code(Syn_codon1)
+                        elif (len(llst) == 0) & (edit_pos-2< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon1)
 
-                                if len(lst) != 0:  #CODON1
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = -1
+                            if len(lst) != 0:  #CODON1
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = -1
 
-                                    if modi_codon[0] == Syn_codon1[0]:
-                                        a += 0
-                                        r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                if modi_codon[0] == Syn_codon1[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -2] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq                                
+                                elif modi_codon[-1] == Syn_codon1[-1]:
+                                    if alpha>=1: pass
+                                    else:
+                                        a += -2
+                                        r_lst[int(rha -1 + a)] = modi_codon[0].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
+                                        syn_nu = modi_codon[0]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -2] = syn_nu # synony site
+                                        ref_lst[edit_pos -4] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq                                
-                                    elif modi_codon[-1] == Syn_codon1[-1]:
-                                        if alpha>=1: pass
-                                        else:
-                                            a += -2
-                                            r_lst[int(rha -1 + a)] = modi_codon[0].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[0]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos -4] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha -1 + a
+                                        df.loc[i,"seq"] = seq
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha -1 + a
 
                     elif edit_codon_loc ==1:
 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst =[]
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+4< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4233,6 +4231,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass                        
@@ -4246,6 +4245,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -4253,7 +4253,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        else:
+                        elif (len(llst) == 0) & (edit_pos+7< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
 
                             if len(lst) != 0:  #CODON4
@@ -4293,8 +4293,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                     elif edit_codon_loc == len(cds)/3 -1:
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst =[]
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-2< nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4309,6 +4310,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                             elif modi_codon[-1] == Syn_codon1[-1]:
                                 a += -2
                                 r_lst[int(rha -1 + a)] = modi_codon[0].lower()
@@ -4318,15 +4320,16 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
 
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha -1 + a
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos-5< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
-                            
+                            llst = []
                             if len(lst) != 0:  #CODON2
             
                                 modi_codon = random.choice(lst) 
@@ -4342,6 +4345,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos -5] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                 elif modi_codon[-1] == Syn_codon2[-1]:
                                     if (alpha >=1) & (edit_codon_loc ==2): pass
                                     else:
@@ -4354,6 +4358,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos -7] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq
+                                        llst.append(1)
 
                                 synonyrtpbs = ''.join(r_lst)
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
@@ -4361,51 +4366,52 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"RHA_len"] = rha -1 -3 + a
 
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos+4< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon3)
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 2
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 2
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-                                            a += 2
-                                            r_lst[int(rha + a)] = modi_codon[-1].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos +4] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq
-                                            if lha<3 :
-                                                r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
-                                            else: pass                                    
-                                                        
-                                            
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += 0
-                                        r_lst[int(rha + a)] = modi_codon[0].lower()
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
+                                    else:
+                                        a += 2
+                                        r_lst[int(rha + a)] = modi_codon[-1].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
+                                        syn_nu = modi_codon[-1]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +2] = syn_nu # synony site
+                                        ref_lst[edit_pos +4] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq                                
+                                        df.loc[i,"seq"] = seq
                                         if lha<3 :
                                             r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
-                                        else: pass
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                        else: pass                                    
+                                                    
+                                        
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += 0
+                                    r_lst[int(rha + a)] = modi_codon[0].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +2] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq                                
+                                    if lha<3 :
+                                        r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
+                                    else: pass
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
                     elif edit_codon_loc == len(cds)/3:
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-2< nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4420,6 +4426,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -2] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                             elif modi_codon[-1] == Syn_codon1[-1]:
                                 a += -2
                                 r_lst[int(rha -1 + a)] = modi_codon[0].lower()
@@ -4429,13 +4436,14 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -4] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
 
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha -1 + a
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos-5< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -4484,8 +4492,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                     if 1< edit_codon_loc < len(cds)/3 -1:
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+3< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4500,6 +4509,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass                        
@@ -4513,6 +4523,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -4520,9 +4531,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos+6< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
-
+                            llst = []
                             if len(lst) != 0:  #CODON4
             
                                 modi_codon = random.choice(lst) 
@@ -4540,6 +4551,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos +6] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq  
+                                        llst.append(1)
                                         if pbs_len+lha<11 :
                                             r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                         else: pass                                
@@ -4553,6 +4565,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +4] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass                            
@@ -4562,80 +4575,84 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon1)
+                        elif (len(llst) == 0) & (edit_pos-3< nick_loc):
+                            llst = []
+                            lst = synony_dic.synony_code(Syn_codon1)
 
-                                if len(lst) != 0:  #CODON1
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = -2
+                            if len(lst) != 0:  #CODON1
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = -2
 
-                                    if modi_codon[0] == Syn_codon1[0]:
-                                        a += 0
-                                        r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
-                                        ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
-                                        ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -3] = syn_nu # synony site
-                                        seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq  
-                                    elif modi_codon[-1] == Syn_codon1[-1]:
+                                if modi_codon[0] == Syn_codon1[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -3] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq  
+                                    llst.append(1)
+                                elif modi_codon[-1] == Syn_codon1[-1]:
+                                    a += -2
+                                    r_lst[int(rha -1 + a)] = modi_codon[0].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -5] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                    llst.append(1)
+
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
+                                df.loc[i,"RHA_len"] = rha -1 + a
+
+                        elif (len(llst) == 0) & (edit_pos-6< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon2)
+                            
+                            if len(lst) != 0:  #CODON2
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = -2
+
+                                if modi_codon[0] == Syn_codon2[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 -3 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -6] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq  
+                                elif modi_codon[-1] == Syn_codon2[-1]:
+                                    if (alpha >=1) & (edit_codon_loc ==2): pass
+                                    else:
+
                                         a += -2
-                                        r_lst[int(rha -1 + a)] = modi_codon[0].lower()
+                                        r_lst[int(rha -1 -3 + a)] = modi_codon[0].lower()
                                         ref_lst = list(ref)
                                         syn_nu = modi_codon[0]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -5] = syn_nu # synony site
+                                        ref_lst[edit_pos -8] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq
 
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
-                                    df.loc[i,"RHA_len"] = rha -1 + a
-
-                                else:
-                                    lst = synony_dic.synony_code(Syn_codon2)
-                                    
-                                    if len(lst) != 0:  #CODON2
-                    
-                                        modi_codon = random.choice(lst) 
-                                        r_lst = list(rtpbs)
-                                        a = -2
-
-                                        if modi_codon[0] == Syn_codon2[0]:
-                                            a += 0
-                                            r_lst[int(rha -1 -3 + a)] = modi_codon[-1].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos -6] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq  
-                                        elif modi_codon[-1] == Syn_codon2[-1]:
-                                            if (alpha >=1) & (edit_codon_loc ==2): pass
-                                            else:
-
-                                                a += -2
-                                                r_lst[int(rha -1 -3 + a)] = modi_codon[0].lower()
-                                                ref_lst = list(ref)
-                                                syn_nu = modi_codon[0]
-                                                ref_lst[edit_pos] = nu  # original
-                                                ref_lst[edit_pos -8] = syn_nu # synony site
-                                                seq = ''.join(ref_lst)
-                                                df.loc[i,"seq"] = seq
-
-                                        synonyrtpbs = ''.join(r_lst)
-                                        df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                        df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
-                                        df.loc[i,"RHA_len"] = rha -1 -3 + a
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon)
+                                df.loc[i,"RHA_len"] = rha -1 -3 + a
 
                     elif edit_codon_loc ==2:
 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+3< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4650,6 +4667,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
 
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
@@ -4664,6 +4682,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -4672,8 +4691,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
 
-                        else: 
+                        elif (len(llst) == 0) & (edit_pos+6< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
+                            llst = []
 
                             if len(lst) != 0:  #CODON4
             
@@ -4690,6 +4710,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +6] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq  
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass                            
@@ -4703,6 +4724,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos +4] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq
+                                    llst.append(1)
                                     if pbs_len+lha<11  :
                                         r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+7])
                                     else: pass                            
@@ -4712,49 +4734,50 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                                 df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                            else:
+                        elif (len(llst) == 0) & (edit_pos-3< nick_loc):
 
-                                lst = synony_dic.synony_code(Syn_codon1)
+                            lst = synony_dic.synony_code(Syn_codon1)
 
-                                if len(lst) != 0:  #CODON1
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = -2
+                            if len(lst) != 0:  #CODON1
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = -2
 
-                                    if modi_codon[0] == Syn_codon1[0]:
-                                        a += 0
-                                        r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                if modi_codon[0] == Syn_codon1[0]:
+                                    a += 0
+                                    r_lst[int(rha -1 + a)] = modi_codon[-1].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[-1]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos -3] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq  
+                                elif modi_codon[-1] == Syn_codon1[-1]:
+                                    if alpha>=1: pass
+                                    else:
+                                        a += -2
+                                        r_lst[int(rha -1 + a)] = modi_codon[0].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[-1]
+                                        syn_nu = modi_codon[0]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos -3] = syn_nu # synony site
+                                        ref_lst[edit_pos -5] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq  
-                                    elif modi_codon[-1] == Syn_codon1[-1]:
-                                        if alpha>=1: pass
-                                        else:
-                                            a += -2
-                                            r_lst[int(rha -1 + a)] = modi_codon[0].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[0]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos -5] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq
+                                        df.loc[i,"seq"] = seq
 
 
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
-                                    df.loc[i,"RHA_len"] = rha -1 + a
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                df.loc[i,"RHA_len"] = rha -1 + a
 
                     elif edit_codon_loc ==1:
 
 
                         lst = synony_dic.synony_code(Syn_codon3)
+                        llst = []
 
-                        if len(lst) != 0:  #CODON3
+                        if (len(lst) != 0) & (edit_pos+3< nick_loc):  #CODON3
 
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4769,6 +4792,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass                        
@@ -4782,6 +4806,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos +1] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
                                 if pbs_len+lha<11  :
                                     r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
                                 else: pass
@@ -4789,7 +4814,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
-                        else:
+                        elif (len(llst) == 0) & (edit_pos+6< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon4)
 
                             if len(lst) != 0:  #CODON4
@@ -4830,8 +4855,9 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                     elif edit_codon_loc == len(cds)/3 -1:
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst =[]
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-3< nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4846,6 +4872,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
                             elif modi_codon[-1] == Syn_codon1[-1]:
                                 a += -2
                                 r_lst[int(rha -1 + a)] = modi_codon[0].lower()
@@ -4855,14 +4882,16 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -5] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
 
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha -1 + a
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos-6< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
+                            llst =[]
                             
                             if len(lst) != 0:  #CODON2
             
@@ -4879,6 +4908,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                     ref_lst[edit_pos -6] = syn_nu # synony site
                                     seq = ''.join(ref_lst)
                                     df.loc[i,"seq"] = seq  
+                                    llst.append(1)
                                 elif modi_codon[-1] == Syn_codon2[-1]:
                                     if (alpha >=1) & (edit_codon_loc ==2): pass
                                     else:
@@ -4891,6 +4921,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                         ref_lst[edit_pos -8] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
                                         df.loc[i,"seq"] = seq
+                                        llst.append(1)
 
                                 synonyrtpbs = ''.join(r_lst)
                                 df.loc[i,"SynonyRTPBS"] = synonyrtpbs
@@ -4898,51 +4929,52 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 df.loc[i,"RHA_len"] = rha -1 -3 + a
 
 
-                            else: 
-                                lst = synony_dic.synony_code(Syn_codon3)
+                        elif (len(llst) == 0) & (edit_pos+3< nick_loc):
+                            lst = synony_dic.synony_code(Syn_codon3)
 
-                                if len(lst) != 0:  #CODON3
-                
-                                    modi_codon = random.choice(lst) 
-                                    r_lst = list(rtpbs)
-                                    a = 1
+                            if len(lst) != 0:  #CODON3
+            
+                                modi_codon = random.choice(lst) 
+                                r_lst = list(rtpbs)
+                                a = 1
 
-                                    if modi_codon[0] == Syn_codon3[0]:
-                                        if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
-                                        else:
-                                            a += 2
-                                            r_lst[int(rha + a)] = modi_codon[-1].lower()
-                                            ref_lst = list(ref)
-                                            syn_nu = modi_codon[-1]
-                                            ref_lst[edit_pos] = nu  # original
-                                            ref_lst[edit_pos +3] = syn_nu # synony site
-                                            seq = ''.join(ref_lst)
-                                            df.loc[i,"seq"] = seq  
-                                            if lha<3 :
-                                                r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
-                                            else: pass                                    
-                                            
-                                    elif modi_codon[-1] == Syn_codon3[-1]:
-                                        a += 0
-                                        r_lst[int(rha + a)] = modi_codon[0].lower()
+                                if modi_codon[0] == Syn_codon3[0]:
+                                    if (beta >=1)&(edit_codon_loc == len(cds)/3-2): pass
+                                    else:
+                                        a += 2
+                                        r_lst[int(rha + a)] = modi_codon[-1].lower()
                                         ref_lst = list(ref)
-                                        syn_nu = modi_codon[0]
+                                        syn_nu = modi_codon[-1]
                                         ref_lst[edit_pos] = nu  # original
-                                        ref_lst[edit_pos +1] = syn_nu # synony site
+                                        ref_lst[edit_pos +3] = syn_nu # synony site
                                         seq = ''.join(ref_lst)
-                                        df.loc[i,"seq"] = seq
+                                        df.loc[i,"seq"] = seq  
                                         if lha<3 :
                                             r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
-                                        else: pass
-                                    synonyrtpbs = ''.join(r_lst)
-                                    df.loc[i,"SynonyRTPBS"] = synonyrtpbs
-                                    df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
+                                        else: pass                                    
+                                        
+                                elif modi_codon[-1] == Syn_codon3[-1]:
+                                    a += 0
+                                    r_lst[int(rha + a)] = modi_codon[0].lower()
+                                    ref_lst = list(ref)
+                                    syn_nu = modi_codon[0]
+                                    ref_lst[edit_pos] = nu  # original
+                                    ref_lst[edit_pos +1] = syn_nu # synony site
+                                    seq = ''.join(ref_lst)
+                                    df.loc[i,"seq"] = seq
+                                    if lha<3 :
+                                        r_lst.append(ref[rtpbs_terminal+1:rtpbs_terminal+4])
+                                    else: pass
+                                synonyrtpbs = ''.join(r_lst)
+                                df.loc[i,"SynonyRTPBS"] = synonyrtpbs
+                                df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) 
 
                     elif edit_codon_loc == len(cds)/3:
 
                         lst = synony_dic.synony_code(Syn_codon1)
+                        llst =[]
 
-                        if len(lst) != 0:  #CODON1
+                        if (len(lst) != 0) & (edit_pos-3< nick_loc):  #CODON1
         
                             modi_codon = random.choice(lst) 
                             r_lst = list(rtpbs)
@@ -4957,6 +4989,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -3] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq  
+                                llst.append(1)
                             elif modi_codon[-1] == Syn_codon1[-1]:
                                 a += -2
                                 r_lst[int(rha -1 + a)] = modi_codon[0].lower()
@@ -4966,13 +4999,14 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 ref_lst[edit_pos -5] = syn_nu # synony site
                                 seq = ''.join(ref_lst)
                                 df.loc[i,"seq"] = seq
+                                llst.append(1)
 
                             synonyrtpbs = ''.join(r_lst)
                             df.loc[i,"SynonyRTPBS"] = synonyrtpbs
                             df.loc[i,"SynonyCodon"] = Endo_REF.gene_code(modi_codon) # 나중 검증용
                             df.loc[i,"RHA_len"] = rha -1 + a
 
-                        elif len(lst) == 0:
+                        elif (len(llst) == 0) & (edit_pos-6< nick_loc):
                             lst = synony_dic.synony_code(Syn_codon2)
                             
                             if len(lst) != 0:  #CODON2
@@ -5010,8 +5044,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
         except IndexError: 
             print("list index out of range")
-
-
-
+        
+   
     return df
 
