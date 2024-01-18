@@ -17,5 +17,4 @@ The article 'Saturation resistance profiling of EGFR variants against tyrosine k
 
 5. Synonymous SNV could be inserted into the LHA, RHA, or PAM-disrupting regions
 
-6. Suggest pegRNAs according to the DeepPrime Scores
-7. 
+6. Suggest pegRNAs according to the DeepPrime Scores 
