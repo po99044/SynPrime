@@ -124,7 +124,7 @@ def pam_disrupt(df,alpha,ref2,ref, cds):
             pam_rem = (pam_loc+1  +alpha)%3
             edit_codon_loc = math.ceil((edit_pos+1  + alpha - 60)/3) 
             
-            if pam_codon_loc <1:
+            if pam_codon_loc <=1:
                 df.loc[i,"synony pam disrupt"] ="F" 
                 df.loc[i,"Intended pam disrupt"] ="F"            
             elif pam_codon_loc > len(cds)/3:
@@ -405,7 +405,7 @@ def pam_disrupt(df,alpha,ref2,ref, cds):
             pam_codon_loc = math.ceil((pam_loc+1  + alpha - 60)/3) 
             pam_rem = (pam_loc+1  +alpha)%3
             edit_codon_loc = math.ceil((edit_pos+1  + alpha - 60)/3) 
-            if pam_codon_loc <1: 
+            if pam_codon_loc <=1: 
                 df.loc[i,"synony pam disrupt"] ="F" 
                 df.loc[i,"Intended pam disrupt"] ="F"                  
             elif pam_codon_loc > len(cds)/3:
