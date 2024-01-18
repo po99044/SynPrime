@@ -1,28 +1,3 @@
-# %%
-
-## 우선 60 + CDS + 60 ref 설정함
-
-def exon(a):
-    
-    dic ={
-    "AR_E4" : "gttgcattgtgtgtttttgaccactgatgataaattcaagtctctcttccttcccaatagcccggaagctgaagaaacttggtaatctgaaactacaggaggaaggagaggcttccagcaccaccagccccactgaggagacaacccagaagctgacagtgtcacacattgaaggctatgaatgtcagcccatctttctgaatgtcctggaagccattgagccaggtgtagtgtgtgctggacacgacaacaaccagcccgactcctttgcagccttgctctctagcctcaatgaactgggagagagacagcttgtacacgtggtcaagtgggccaaggccttgcctggtaaggaaaagggaagtgggagcatgagataagggggatcatatttagtgaacgctccta".upper(),
-
-    "AR_E5" : "agacttagctcaacccgtcagtacccagactgaccactgcctctgcctcttcttctccaggcttccgcaacttacacgtggacgaccagatggctgtcattcagtactcctggatggggctcatggtgtttgccatgggctggcgatccttcaccaatgtcaactccaggatgctctacttcgcccctgatctggttttcaatgagtaagtgctcctggggcccagacctcactaaaatacagcagcttggccagacctggttgg".upper(),
-
-    "AR_E6" : "cctctgggcttattgtaaacttcccctcattcctttttcctctgtgtatctccttcccaggtaccgcatgcacaagtcccggatgtacagccagtgtgtccgaatgaggcacctctctcaagagtttggatggctccaaatcaccccccaggaattcctgtgcatgaaagcactgctactcttcagcattagtaagtgcctagaagtgcagggaatgccccctgagggcacagagattcagagaggaccac".upper(),
-
-    "AR_E7" : "tgtctaatgctccttcgtgggcatgcttcccctccccattctgtcttcatcccacatcagttccagtggatgggctgaaaaatcaaaaattctttgatgaacttcgaatgaactacatcaaggaactcgatcgtatcattgcatgcaaaagaaaaaatcccacatcctgctcaagacgcttctaccagctcaccaagctcctggactccgtgcagcctgtaagcaaacgatggagggtgctttatcagggagaacagcctgatagagccaatgataat".upper(),
-
-    "AR_E8" : "ggctagcagaggccacctccttgtcaaccctgtttttctccctcttattgttccctacagattgcgagagagctgcatcagttcacttttgacctgctaatcaagtcacacatggtgagcgtggactttccggaaatgatggcagagatcatctctgtgcaagtgcccaagatcctttctgggaaagtcaagcccatctatttccacacccagtgaagcattggaaaccctatttccccaccccagctcatgccccctttcagatgtcttctgcct".upper(),
-
-    "AR_E82" : "ggctagcagaggccacctccttgtcaaccctgtttttctccctcttattgttccctacagattgcgagagagctgcatcagttcacttttgacctgctaatcaagtcacacatggtgagcgtggactttccggaaatgatggcagagatcatctctgtgcaagtgcccaagatcctttctgggaaagtcaagcccatctatttccacacccagtgaagcattggaaaccctatttccccaccccagctcatgccccctttcagatgtcttctgcct".upper(),
-    "AR_E0" : "ggctagcagaggccacctccttgtcaaccctgtttttctccctcttattgttccctacagattgcgagagagctgcatcagttcacttttgacctgctaatcaagtcacacatggtgagcgtggactttccggaaatgatggcagagatcatctctgtgcaagtgcccaagatcctttctgggaaagtcaagcccatctatttccacacccagtgaagcattggaaaccctatttccccaccccagctcatgccccctttcagatgtcttctgcct".upper()
-    
-    }
-
-    return dic["AR_"+str(a)]
-
-
 
 
 ## Genetic code
@@ -53,4 +28,4 @@ def synony_code(c):
     }
 
     return dic[c]
-# %%
+
