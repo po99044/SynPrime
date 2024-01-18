@@ -2629,7 +2629,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon4[0]:
                                 a += 10
-                                r_lst[int(rha-3 + a)] = modi_codon[-1].lower()
+                                r_lst[int(rha+ a)] = modi_codon[-1].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[-1]
                                 ref_lst[edit_pos] = nu  # original
@@ -2641,7 +2641,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 else: pass                               
                             elif modi_codon[-1] == Syn_codon4[-1]:
                                 a += 8
-                                r_lst[int(rha-3 + a)] = modi_codon[0].lower()
+                                r_lst[int(rha+ a)] = modi_codon[0].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[0]
                                 ref_lst[edit_pos] = nu  # original
@@ -2715,7 +2715,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon4[0]:
                                 a += 10
-                                r_lst[int(rha-3 + a)] = modi_codon[-1].lower()
+                                r_lst[int(rha + a)] = modi_codon[-1].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[-1]
                                 ref_lst[edit_pos] = nu  # original
@@ -2728,7 +2728,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 
                             elif modi_codon[-1] == Syn_codon4[-1]:
                                 a += 8
-                                r_lst[int(rha-3 + a)] = modi_codon[0].lower()
+                                r_lst[int(rha+ a)] = modi_codon[0].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[0]
                                 ref_lst[edit_pos] = nu  # original
@@ -2799,7 +2799,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon4[0]:
                                 a += 10
-                                r_lst[int(rha-3 + a)] = modi_codon[-1].lower()
+                                r_lst[int(rha+ a)] = modi_codon[-1].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[-1]
                                 ref_lst[edit_pos] = nu  # original
@@ -2812,7 +2812,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 
                             elif modi_codon[-1] == Syn_codon4[-1]:
                                 a += 8
-                                r_lst[int(rha-3 + a)] = modi_codon[0].lower()
+                                r_lst[int(rha+ a)] = modi_codon[0].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[0]
                                 ref_lst[edit_pos] = nu  # original
@@ -2884,7 +2884,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon4[0]:
                                 a += 10
-                                r_lst[int(rha-3 + a)] = modi_codon[-1].lower()
+                                r_lst[int(rha+ a)] = modi_codon[-1].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[-1]
                                 ref_lst[edit_pos] = nu  # original
@@ -2896,7 +2896,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 else: pass                           
                             elif modi_codon[-1] == Syn_codon4[-1]:
                                 a += 8
-                                r_lst[int(rha-3 + a)] = modi_codon[0].lower()
+                                r_lst[int(rha+ a)] = modi_codon[0].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[0]
                                 ref_lst[edit_pos] = nu  # original
@@ -2967,7 +2967,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
                             if modi_codon[0] == Syn_codon4[0]:
                                 a += 10
-                                r_lst[int(rha-3 + a)] = modi_codon[-1].lower()
+                                r_lst[int(rha+ a)] = modi_codon[-1].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[-1]
                                 ref_lst[edit_pos] = nu  # original
@@ -2980,7 +2980,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                                 
                             elif modi_codon[-1] == Syn_codon4[-1]:
                                 a += 8
-                                r_lst[int(rha-3 + a)] = modi_codon[0].lower()
+                                r_lst[int(rha+ a)] = modi_codon[0].lower()
                                 ref_lst = list(ref)
                                 syn_nu = modi_codon[0]
                                 ref_lst[edit_pos] = nu  # original
@@ -5044,7 +5044,6 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
 
         except IndexError: 
             print("list index out of range")
-        
    
     return df
 
