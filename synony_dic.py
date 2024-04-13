@@ -26,7 +26,7 @@ def synony_code(c):
         "CCG":["CCT","CCC","CCA"],
 
         "TAT" : ["TAC"], 
-        "TAC" : ["TAC"], 
+        "TAC" : ["TAT"], 
 
         "TAA":["TAG","TGA"],
         "TAG":["TAA"],
