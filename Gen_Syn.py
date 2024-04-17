@@ -2570,7 +2570,7 @@ def syn_gen(df, alpha, beta, cds, ref, ref2):
                 
                 edit_codon_loc = math.ceil((edit_pos+1  + alpha - 60)/3) 
                 edit_rem = (edit_pos+1 - 60 + alpha) %3   # OOO  1 2 0 순서
-                nick_loc = pam_loc + 6
+                nick_loc = pam_loc - 4 
                 ## Splice
                 if edit_pos-55 in [0,1,2,3,4]:  #5'은 codon3,4 only
                     k = edit_pos - 55
