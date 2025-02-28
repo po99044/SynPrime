@@ -2,7 +2,7 @@
 Provide PEER-seq library design (Old Synprime in biorxiv)
 
 
-The article 'Saturation resistance profiling of EGFR variants against tyrosine kinase inhibitors using prime editing' is based on this design concept. (https://www.nature.com/articles/s41587-024-02465-z)
+The article 'Saturation profiling of drug-resistant genetic variants using prime editing' is based on this design concept. (https://www.nature.com/articles/s41587-024-02465-z)
 
 
 **Principle**
